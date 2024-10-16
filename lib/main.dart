@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plaza_libre/Components/Auth/plazalibre.dart';
 import 'package:plaza_libre/Components/shared/navBar.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Plaza Libre',
-      home: PlazaLibreNav(),
+      home: PlazaLibreHomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
