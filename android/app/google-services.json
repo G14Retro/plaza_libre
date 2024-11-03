@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "580096241925",
+    "firebase_url": "https://prueba-c964b-default-rtdb.firebaseio.com",
+    "project_id": "prueba-c964b",
+    "storage_bucket": "prueba-c964b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580096241925:android:6e2d2fab29dbb33f08c76c",
+        "android_client_info": {
+          "package_name": "com.example.plaza_libre"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvAVdCGNjxYV0aIry7IPY0BYN2FHktTgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580096241925:android:0d87bd7d38bead5b08c76c",
+        "android_client_info": {
+          "package_name": "com.plazaLibre.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvAVdCGNjxYV0aIry7IPY0BYN2FHktTgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

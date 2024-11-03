@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:plaza_libre/Components/Auth/signup.dart';
-import 'package:plaza_libre/Components/shared/navBar.dart';
+import 'package:plaza_libre/auth/signup.dart';
+import 'package:plaza_libre/shared/navBar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                               email: email,
                               password: password,
                             );
-                            Navigator.push(
+                            Navigator.pushReplacement(
                           // ignore: use_build_context_synchronously
                           context,
                           MaterialPageRoute(builder: (context) => const PlazaLibreNav()),

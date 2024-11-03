@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:plaza_libre/Components/auth/login.dart';
-import 'package:plaza_libre/Components/auth/signup.dart';
+import 'package:plaza_libre/auth/login.dart';
+import 'package:plaza_libre/auth/signup.dart';
+import 'package:plaza_libre/shared/navBar.dart';
 
 
 // ignore: use_key_in_widget_constructors
@@ -15,7 +16,7 @@ class PlazaLibreHomePage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasData) {
-          return const HomeScreen(); // Pantalla de inicio después de iniciar sesión
+          return const PlazaLibreNav(); // Pantalla de inicio después de iniciar sesión
         } else {
           return const WelcomeScreen(); // Pantalla de bienvenida
         }
