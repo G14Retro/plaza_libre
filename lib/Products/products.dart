@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plaza_libre/shared/navBar.dart';
 import 'package:provider/provider.dart';
 import 'package:plaza_libre/core/providers/productProvider.dart';
 
@@ -56,7 +57,9 @@ class ProductListPage extends StatelessWidget {
             children: [
               IconButton(
                 icon: Icon(Icons.shopping_cart),
-                onPressed: () {},
+                onPressed: () {
+                  PlazaLibreNav.selectedTabNotifier.value = 2;
+                },
               ),
               Positioned(
                 right: 8,

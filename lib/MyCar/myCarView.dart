@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:plaza_libre/Chekout/CheckoutView.dart';
 import 'package:plaza_libre/core/providers/productProvider.dart';
+import 'package:provider/provider.dart';
 
 // ignore: use_key_in_widget_constructors
 class MyCarView extends StatefulWidget {
@@ -11,26 +12,10 @@ class MyCarView extends StatefulWidget {
 }
 
 class _MyCarViewState extends State<MyCarView> {
-  final List<Product> products = [
-    Product('Tomate', 'Verduras Siempre Frescas', 5000, 'https://placehold.co/100x100.png?text=Tomate'),
-    Product('Lechuga', 'Verduras Siempre Frescas', 3000, 'https://placehold.co/100x100.png?text=Lechuga'),
-    Product('Zanahoria', 'Verduras Siempre Frescas', 2000, 'https://placehold.co/100x100.png?text=Zanahoria'),
-    Product('Pepino', 'Verduras Siempre Frescas', 2500, 'https://placehold.co/100x100.png?text=Pepino'),
-    Product('Pimiento', 'Verduras Siempre Frescas', 4000, 'https://placehold.co/100x100.png?text=Pimiento'),
-    Product('Cebolla', 'Verduras Siempre Frescas', 1500, 'https://placehold.co/100x100.png?text=Cebolla'),
-    Product('Ajo', 'Verduras Siempre Frescas', 1000, 'https://placehold.co/100x100.png?text=Ajo'),
-    Product('Papa', 'Verduras Siempre Frescas', 3500, 'https://placehold.co/100x100.png?text=Papa'),
-    Product('Calabacín', 'Verduras Siempre Frescas', 4500, 'https://placehold.co/100x100.png?text=Calabacín'),
-    Product('Berenjena', 'Verduras Siempre Frescas', 5000, 'https://placehold.co/100x100.png?text=Berenjena'),
-    Product('Brócoli', 'Verduras Siempre Frescas', 5500, 'https://placehold.co/100x100.png?text=Brócoli'),
-    Product('Coliflor', 'Verduras Siempre Frescas', 6000, 'https://placehold.co/100x100.png?text=Coliflor'),
-    Product('Espinaca', 'Verduras Siempre Frescas', 3500, 'https://placehold.co/100x100.png?text=Espinaca'),
-    Product('Apio', 'Verduras Siempre Frescas', 2500, 'https://placehold.co/100x100.png?text=Apio'),
-    Product('Rábano', 'Verduras Siempre Frescas', 2000, 'https://placehold.co/100x100.png?text=Rábano'),
-  ];
 
   @override
   Widget build(BuildContext context) {
+  final List<Product> products = Provider.of<ProductProvider>(context).products;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
