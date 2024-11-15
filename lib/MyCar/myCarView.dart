@@ -1,26 +1,28 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:plaza_libre/Chekout/CheckoutView.dart';
 import 'package:plaza_libre/core/providers/productProvider.dart';
 import 'package:provider/provider.dart';
 
-// ignore: use_key_in_widget_constructors
 class MyCarView extends StatefulWidget {
   @override
-  // ignore: library_private_types_in_public_api
   _MyCarViewState createState() => _MyCarViewState();
 }
 
 class _MyCarViewState extends State<MyCarView> {
-
   @override
   Widget build(BuildContext context) {
-  final List<Product> products = Provider.of<ProductProvider>(context).products;
+    final Map<Product, int> productCounts = {};
+    final List<Product> products = Provider.of<ProductProvider>(context).products;
+
+    for (var product in products) {
+      productCounts.update(product, (count) => count + 1, ifAbsent: () => 1);
+    }
+
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Carrito', style: TextStyle(color: Colors.white),),
+        title: const Text('Carrito', style: TextStyle(color: Colors.white)),
         backgroundColor: const Color.fromARGB(255, 19, 19, 19),
       ),
       backgroundColor: const Color.fromARGB(255, 19, 19, 19),
@@ -28,12 +30,14 @@ class _MyCarViewState extends State<MyCarView> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: products.length,
+              itemCount: productCounts.length,
               itemBuilder: (context, index) {
+                final product = productCounts.keys.elementAt(index);
+                final count = productCounts[product]!;
                 return Container(
                   margin: const EdgeInsets.all(8.0),
                   padding: const EdgeInsets.all(5),
-                  child: ProductCard(product: products[index]),
+                  child: ProductCard(product: product),
                 );
               },
             ),
@@ -45,7 +49,6 @@ class _MyCarViewState extends State<MyCarView> {
                 width: screenWidth * 1,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Acción para ir a pago
                     _showOptionDialog(context);
                   },
                   child: const Text('Proceder al pago'),
@@ -85,7 +88,7 @@ class _MyCarViewState extends State<MyCarView> {
     if (selected != null) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Checkoutview(selected)),
+        MaterialPageRoute(builder: (context) => Checkoutview(selected, Provider.of<ProductProvider>(context, listen: true).getBuyCount())),
       );
     }
   }
@@ -98,6 +101,9 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context, listen: true);
+    final int account = productProvider.getProductCount(product);
+
     return Card(
       color: Colors.grey[850],
       shape: RoundedRectangleBorder(
@@ -120,12 +126,65 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Text(
                     product.name,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
-                  Text(product.description,style: TextStyle(color: Colors.white),),
+                  Text(
+                    product.description,
+                    style: const TextStyle(color: Colors.white),
+                  ),
                   Text(
                     '\$ ${product.price}',
                     style: const TextStyle(color: Colors.white),
+                  ),
+                  Container(
+                    width: 500,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 60,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              productProvider.addProduct(product);
+                            },
+                            child: const Center(
+                              child: Text(
+                                "+",
+                                style: TextStyle(fontSize: 25),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 45,
+                          height: 35,
+                          margin: const EdgeInsets.only(left: 10, right: 10),
+                          alignment: Alignment.center,
+                          color: Colors.white,
+                          child: Text(
+                            "$account",
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                        ),
+                        Container(
+                          width: 60,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (account > 0) {
+                                productProvider.removeProduct(product);
+                              }
+                            },
+                            child: const Text(
+                              "-",
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.w900),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

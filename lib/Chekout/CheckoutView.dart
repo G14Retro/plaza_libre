@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class Checkoutview extends StatelessWidget {
   // ignore: non_constant_identifier_names
   String medio_pago = '';
+  late double totalBuy;
   // ignore: use_key_in_widget_constructors
-  Checkoutview(String pago){
+  Checkoutview(String pago, double total){
     // ignore: unnecessary_this
     this.medio_pago = pago;
+    this.totalBuy = total;
   }
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class Checkoutview extends StatelessWidget {
                       children: [
                         const Text('\$ 10.000'),
                         Text(medio_pago),
-                        const Text('\$ 10.000'),
+                        Text('\$ $totalBuy'),
                       ],
                     ),
                     )
