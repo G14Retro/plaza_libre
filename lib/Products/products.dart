@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plaza_libre/shared/navBar.dart';
 import 'package:provider/provider.dart';
 import 'package:plaza_libre/core/providers/productProvider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   runApp(
@@ -29,23 +30,17 @@ class ProductsView extends StatelessWidget {
 }
 
 class ProductListPage extends StatelessWidget {
-  final List<Product> products = [
-    Product('Tomate', 'Verduras Siempre Frescas', 5000, 'https://placehold.co/100x100.png?text=Tomate'),
-    Product('Lechuga', 'Verduras Siempre Frescas', 3000, 'https://placehold.co/100x100.png?text=Lechuga'),
-    Product('Zanahoria', 'Verduras Siempre Frescas', 2000, 'https://placehold.co/100x100.png?text=Zanahoria'),
-    Product('Pepino', 'Verduras Siempre Frescas', 2500, 'https://placehold.co/100x100.png?text=Pepino'),
-    Product('Pimiento', 'Verduras Siempre Frescas', 4000, 'https://placehold.co/100x100.png?text=Pimiento'),
-    Product('Cebolla', 'Verduras Siempre Frescas', 1500, 'https://placehold.co/100x100.png?text=Cebolla'),
-    Product('Ajo', 'Verduras Siempre Frescas', 1000, 'https://placehold.co/100x100.png?text=Ajo'),
-    Product('Papa', 'Verduras Siempre Frescas', 3500, 'https://placehold.co/100x100.png?text=Papa'),
-    Product('Calabacín', 'Verduras Siempre Frescas', 4500, 'https://placehold.co/100x100.png?text=Calabacín'),
-    Product('Berenjena', 'Verduras Siempre Frescas', 5000, 'https://placehold.co/100x100.png?text=Berenjena'),
-    Product('Brócoli', 'Verduras Siempre Frescas', 5500, 'https://placehold.co/100x100.png?text=Brócoli'),
-    Product('Coliflor', 'Verduras Siempre Frescas', 6000, 'https://placehold.co/100x100.png?text=Coliflor'),
-    Product('Espinaca', 'Verduras Siempre Frescas', 3500, 'https://placehold.co/100x100.png?text=Espinaca'),
-    Product('Apio', 'Verduras Siempre Frescas', 2500, 'https://placehold.co/100x100.png?text=Apio'),
-    Product('Rábano', 'Verduras Siempre Frescas', 2000, 'https://placehold.co/100x100.png?text=Rábano'),
-  ];
+  final CollectionReference productsCollection = FirebaseFirestore.instance.collection('products');
+
+  Future<List<Product>> getProducts() async {
+    try {
+      QuerySnapshot snapshot = await productsCollection.get();
+      return snapshot.docs.map((doc) => Product.fromFirestore(doc)).toList();
+    } catch (e) {
+      print("Error al obtener productos: $e");
+      return [];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +72,7 @@ class ProductListPage extends StatelessWidget {
                         minHeight: 16,
                       ),
                       child: Text(
-                        '${provider.products.length}', // Muestra la cantidad de productos en el carrito
+                        '${provider.products.length}',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 12,
@@ -102,10 +97,22 @@ class ProductListPage extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  return ProductCard(product: products[index]);
+              child: FutureBuilder<List<Product>>(
+                future: getProducts(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error al cargar productos'));
+                  } else {
+                    final products = snapshot.data ?? [];
+                    return ListView.builder(
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        return ProductCard(product: products[index]);
+                      },
+                    );
+                  }
                 },
               ),
             ),
@@ -163,7 +170,7 @@ class ProductCard extends StatelessWidget {
                 backgroundColor: Colors.blue,
                 textStyle: TextStyle(color: Colors.white)
               ),
-              child: Text('Agregar al carrito'),
+              child: Text('Agregar al carrito', style: TextStyle(color: Colors.white),),
             ),
           ],
         ),
