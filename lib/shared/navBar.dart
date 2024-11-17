@@ -4,6 +4,7 @@ import 'package:plaza_libre/MyCar/myCarView.dart';
 import 'package:plaza_libre/Products/products.dart';
 import 'package:plaza_libre/Profile/perfil.dart';
 import 'package:plaza_libre/auth/login.dart';
+import 'package:plaza_libre/auth/plazalibre.dart';
 
 class PlazaLibreNav extends StatefulWidget {
   const PlazaLibreNav({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class PlazaLibreNav extends StatefulWidget {
 
 class _NavigationBarState extends State<PlazaLibreNav> {
   final List<Widget> _pages = [
-    const Center(child: Text("Inicio")),
+    Center(child: HomeScreen()),
     Center(child: ProductsView()),
     Center(child: MyCarView()),
     Center(child: ProfilePage()),
