@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:plaza_libre/auth/login.dart';
@@ -6,6 +7,25 @@ import 'package:plaza_libre/shared/navBar.dart';
 
 
 // ignore: use_key_in_widget_constructors
+
+class News {
+  final String id;
+  final String title;
+  final String description;
+
+  News({required this.id, required this.title,required this.description});
+
+  factory News.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    return News(
+      id: doc.id,
+      title: data['title'] ?? '',
+      description: data['description'] ?? '',
+    );
+  }
+
+}
+
 class PlazaLibreHomePage extends StatelessWidget {
 
   @override
@@ -31,31 +51,103 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cerrar sesión'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Cerrar sesión',
-            onPressed: () async {
-              // Cierra sesión con Firebase
-              await FirebaseAuth.instance.signOut();
-              // Redirigir a la pantalla de inicio de sesión
-              Navigator.pushReplacement(
-                // ignore: use_build_context_synchronously
-                context,
-                MaterialPageRoute(builder: (context) => const LoginPage()),
-              );
-            },
-            // tooltip: 'Cerrar sesión',
-          ),
-        ],
-      ),
-      body: const Center(
-        child: Text('Bienvenido a PlazaLibre'),
+      body: Center(
+        child: NewsListPage(),
       ),
     );
   }
+}
+
+class NewsListPage extends StatelessWidget {
+    final CollectionReference newsCollection = FirebaseFirestore.instance.collection('news');
+    Future<List<News>> getNews() async {
+      try {
+        QuerySnapshot snapshot = await newsCollection.get();
+        return snapshot.docs.map((doc) => News.fromFirestore(doc)).toList();
+      } catch (e) {
+        print("Error al obtener productos: $e");
+        return [];
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Bienvenido a PlazaLibre"),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Text(
+                'Noticias',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+              child: FutureBuilder<List<News>>(
+                future: getNews(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error al cargar noticias'));
+                  } else {
+                    final news = snapshot.data ?? [];
+                    return ListView.builder(
+                      itemCount: news.length,
+                      itemBuilder: (context, index) {
+                        return NewCard(newItem: news[index]);
+                      },
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NewCard extends StatelessWidget {
+  final News newItem;
+
+  const NewCard({Key? key, required this.newItem}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    newItem.title,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(newItem.description),
+                ],
+              ),
+            ),
+          ],
+        ),
+      )
+    );
+  }
+
 }
 
 class WelcomeScreen extends StatelessWidget {

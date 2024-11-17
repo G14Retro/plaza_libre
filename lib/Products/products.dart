@@ -162,7 +162,10 @@ class ProductCard extends StatelessWidget {
                 ],
               ),
             ),
-            ElevatedButton(
+            Container
+            (
+              width: 150,
+              child: ElevatedButton(
               onPressed: () {
                 Provider.of<ProductProvider>(context, listen: false).addProduct(product);
               },
@@ -170,8 +173,8 @@ class ProductCard extends StatelessWidget {
                 backgroundColor: Colors.blue,
                 textStyle: TextStyle(color: Colors.white)
               ),
-              child: Text('Agregar al carrito', style: TextStyle(color: Colors.white),),
-            ),
+              child: Text('Agregar al carrito', style: TextStyle(color: Colors.white, fontSize: 13),),
+            ),)            
           ],
         ),
       ),
