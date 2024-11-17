@@ -82,8 +82,8 @@ class NewsListPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
               Container(
-                margin: EdgeInsets.only(left: 10),
-                child: Text(
+                margin: const EdgeInsets.only(left: 10),
+                child: const Text(
                 'Noticias',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
@@ -93,9 +93,9 @@ class NewsListPage extends StatelessWidget {
                 future: getNews(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child:  CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Error al cargar noticias'));
+                    return const Center(child: Text('Error al cargar noticias'));
                   } else {
                     final news = snapshot.data ?? [];
                     return ListView.builder(
@@ -136,7 +136,7 @@ class NewCard extends StatelessWidget {
                 children: [
                   Text(
                     newItem.title,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(newItem.description),
                 ],
