@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:plaza_libre/core/providers/productProvider.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class Checkoutview extends StatelessWidget {
@@ -17,60 +19,86 @@ class Checkoutview extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     // ignore: unused_local_variable
     final screenHeight = MediaQuery.of(context).size.height;
+    final List<Product> products = Provider.of<ProductProvider>(context).products;
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Finalizar Pedido', style: TextStyle(fontSize: 30, color: Colors.black)),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          Column(
+          Container(
+            margin: const EdgeInsets.only(top: 5),
+            width: screenWidth,
+            child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Center(
-                child: Text('Finalizar Pedido', style: TextStyle(fontSize: 30, color: Colors.black)),),
-              Container(
-                margin: const EdgeInsets.only(top: 5),
-                width: screenWidth * 1,
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
+                Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  width: screenWidth * 1,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const Text('Productos:', style: TextStyle(fontWeight: FontWeight.bold)),
+                      Container(
+                        width: 200,
+                        margin: EdgeInsets.only(left: 8),
+                        child: Column(
+                          children: [
+                            ...products.map((product) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(right: 5),
+                                      child: Text(product.name),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 5),
+                                      child: Text("\$${product.price.toStringAsFixed(2)}"),
+                                    )                              ,
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ],
+                        ),
+                      ),                      
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Center(                
+                    child: Text("Medio de pago: ${medio_pago}"),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 8),
+                  child: Center(
+                    child: Text("Total a pagar: ${totalBuy}"),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(
-                      width: screenWidth * 0.5,
-                      child: const Column(
-                      children: [
-                        Text('Productos:'),
-                        Text('Medio de pago:'),
-                        Text('Total del pedido:'),
-                      ],
-                    ),
-                    ),
-                    SizedBox(
-                      width: screenWidth * 0.35,
-                      child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Text('\$ 10.000'),
-                        Text(medio_pago),
-                        Text('\$ $totalBuy'),
-                      ],
+                      width: screenWidth * 0.8,
+                      child: 
+                      ElevatedButton(
+                      onPressed: () {
+                        // Acción para ir a pago
+                      },
+                      child: const Text('Pagar'),
                     ),
                     )
                   ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  SizedBox(
-                    width: screenWidth * 0.8,
-                    child: 
-                    ElevatedButton(
-                    onPressed: () {
-                      // Acción para ir a pago
-                    },
-                    child: const Text('Pagar'),
-                  ),
-                  )
-                ],
-              ),              
-            ],
+                ),              
+              ],
+            ),
           ),
         ],
       ),

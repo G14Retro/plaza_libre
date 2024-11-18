@@ -63,7 +63,9 @@ class _NavigationBarState extends State<PlazaLibreNav> {
       valueListenable: PlazaLibreNav.selectedTabNotifier,
       builder: (context, selectedTab, child) {
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+          ),
           body: _pages[selectedTab],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: selectedTab,
@@ -75,7 +77,7 @@ class _NavigationBarState extends State<PlazaLibreNav> {
               }
             },
             selectedItemColor: const Color.fromARGB(255, 0, 184, 70),
-            backgroundColor: const Color.fromARGB(255, 0, 184, 70),
+            backgroundColor: Colors.black,
             unselectedItemColor: Colors.grey,
             showUnselectedLabels: true,
             items: const [

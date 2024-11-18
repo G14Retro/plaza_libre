@@ -74,7 +74,8 @@ class NewsListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Bienvenido a PlazaLibre"),
+        title: Text("Bienvenido a PlazaLibre",style: TextStyle(color: Colors.white),),
+        backgroundColor: const Color.fromARGB(255, 19, 19, 19),
       ),
       body: Padding(
         padding: EdgeInsets.all(8.0),
@@ -82,10 +83,10 @@ class NewsListPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
               Container(
-                margin: EdgeInsets.only(left: 10),
-                child: Text(
+                margin: const EdgeInsets.only(left: 10),
+                child: const Text(
                 'Noticias',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.white70),
               ),
             ),
             Expanded(
@@ -93,9 +94,9 @@ class NewsListPage extends StatelessWidget {
                 future: getNews(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child:  CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Error al cargar noticias'));
+                    return const Center(child: Text('Error al cargar noticias'));
                   } else {
                     final news = snapshot.data ?? [];
                     return ListView.builder(
@@ -111,6 +112,7 @@ class NewsListPage extends StatelessWidget {
           ],
         ),
       ),
+      backgroundColor: const Color.fromARGB(255, 19, 19, 19),
     );
   }
 }
@@ -123,6 +125,7 @@ class NewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.grey[850],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -136,9 +139,9 @@ class NewCard extends StatelessWidget {
                 children: [
                   Text(
                     newItem.title,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white),
                   ),
-                  Text(newItem.description),
+                  Text(newItem.description,style: TextStyle(color: Colors.white),),
                 ],
               ),
             ),
