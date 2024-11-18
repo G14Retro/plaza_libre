@@ -74,7 +74,8 @@ class NewsListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Bienvenido a PlazaLibre"),
+        title: Text("Bienvenido a PlazaLibre",style: TextStyle(color: Colors.white),),
+        backgroundColor: const Color.fromARGB(255, 19, 19, 19),
       ),
       body: Padding(
         padding: EdgeInsets.all(8.0),
@@ -85,7 +86,7 @@ class NewsListPage extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 10),
                 child: const Text(
                 'Noticias',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.white70),
               ),
             ),
             Expanded(
@@ -111,6 +112,7 @@ class NewsListPage extends StatelessWidget {
           ],
         ),
       ),
+      backgroundColor: const Color.fromARGB(255, 19, 19, 19),
     );
   }
 }
@@ -123,6 +125,7 @@ class NewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.grey[850],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -136,9 +139,9 @@ class NewCard extends StatelessWidget {
                 children: [
                   Text(
                     newItem.title,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white),
                   ),
-                  Text(newItem.description),
+                  Text(newItem.description,style: TextStyle(color: Colors.white),),
                 ],
               ),
             ),

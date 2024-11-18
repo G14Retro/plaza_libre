@@ -67,13 +67,13 @@ class ProductListPage extends StatelessWidget {
                         color: Colors.green,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         minWidth: 16,
                         minHeight: 16,
                       ),
                       child: Text(
                         '${provider.products.length}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 12,
                         ),
@@ -92,7 +92,7 @@ class ProductListPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Productos',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
@@ -101,9 +101,9 @@ class ProductListPage extends StatelessWidget {
                 future: getProducts(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Error al cargar productos'));
+                    return const Center(child: Text('Error al cargar productos'));
                   } else {
                     final products = snapshot.data ?? [];
                     return ListView.builder(
